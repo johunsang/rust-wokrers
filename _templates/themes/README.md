@@ -4,6 +4,16 @@ Just tell the AI ​​the name of your theme and the entire design will change.
 ```
 “Change the theme to synthwave”“Apply and distribute the cloud-dancer theme”```
 
+## Validation
+
+Run every preset against both Vite apps:
+
+```bash
+pnpm test:themes
+```
+
+The test injects each theme into `apps/landing` and `apps/admin`, builds both apps, removes generated `dist` folders, and restores the original styles.
+
 ## Dark theme (11)
 | theme | Style | Note ||------|--------|------|
 | dark-glass | Glasmorphism (default) | Linear, Raycast || stripe-gradient | Gradient Vibrant | Stripe, Framer || terminal-mono | Terminal/Monospace | GitHub CLI, Warp || neon-cyber | neon cyberpunk | PlanetScale, Railway || glow-aurora | Aurora Glow | Supabase, Resend || bento-clean | Bento Grid Dark | shadcn/ui, Cal.com || synthwave | 80s synthwave | Synthwave aesthetic || mesh-gradient | Multicolor mesh | Apple Music || infrared-purple | Purple+Red Energy | Creative Tools || jewel-tone | Jewel Tone Luxury | Premium SaaS || grayscale-yellow | Monochrome + Yellow | IKEA, developer blog |

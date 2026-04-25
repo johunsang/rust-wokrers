@@ -45,3 +45,10 @@
 - Replaced the `autocannon` benchmark dependency with a Node fetch-based connection ladder to avoid vulnerable transitive dependencies.
 - Added a `postcss` patched-version override.
 - `pnpm audit --audit-level moderate` passed with no known vulnerabilities.
+
+## Design Theme Verification
+
+- Connected landing and admin CSS to the theme preset variables so design options visibly affect backgrounds, text, surfaces, borders, radii, shadows, and accents.
+- Added `scripts/test-themes.mjs` and `pnpm test:themes`.
+- Verified all 30 theme presets by injecting each theme into both Vite apps and building landing/admin for every option.
+- `pnpm test:themes`, `pnpm check`, `pnpm audit --audit-level moderate`, and `pnpm build` passed.

@@ -22,6 +22,7 @@
     "build": "pnpm --filter @rust-wokrers/rust-workers build && pnpm --filter @rust-wokrers/landing build && pnpm --filter @rust-wokrers/admin build",
     "check": "pnpm --recursive run check",
     "test": "pnpm --filter @rust-wokrers/rust-workers check",
+    "test:themes": "node scripts/test-themes.mjs",
     "bench:workers": "node scripts/bench-workers.mjs",
     "perf:workers": "node scripts/perf-workers.mjs",
     "perf:100k:plan": "node -e \"console.log('Use k6 cloud with bench/k6-workers-100k.js. See bench/README.md and docs/14-performance-benchmark.md.')\"",
