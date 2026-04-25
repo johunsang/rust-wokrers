@@ -1,0 +1,74 @@
+name: 100k Worker Performance Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Target to benchmark
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - Hono
+          - Rust
+      think_time_seconds:
+        description: Seconds each virtual user waits between requests
+        required: true
+        default: "10"
+      note:
+        description: Operator note for the test window
+        required: false
+        default: ""
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        shell: bash
+        run: |
+          case "${{ inputs.target }}" in
+            both)
+              echo 'matrix={"include":[{"label":"Hono","base":"https://example.com"},{"label":"Rust","base":"https://rust-wokrers.example.workers.dev"}]}' >> "$GITHUB_OUTPUT"
+              ;;
+            Hono)
+              echo 'matrix={"include":[{"label":"Hono","base":"https://example.com"}]}' >> "$GITHUB_OUTPUT"
+              ;;
+            Rust)
+              echo 'matrix={"include":[{"label":"Rust","base":"https://rust-wokrers.example.workers.dev"}]}' >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+  run-100k:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k || true
+          curl -fsSL https://dl.k6.io/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/k6-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install -y k6
+
+      - name: Run 100k k6 cloud test
+        env:
+          K6_CLOUD_TOKEN: ${{ secrets.K6_CLOUD_TOKEN }}
+          TARGET_LABEL: ${{ matrix.label }}
+          TARGET_BASE: ${{ matrix.base }}
+          THINK_TIME_SECONDS: ${{ inputs.think_time_seconds }}
+          TEST_NOTE: ${{ inputs.note }}
+        run: |
+          test -n "$K6_CLOUD_TOKEN"
+          echo "Running ${TARGET_LABEL} 100k VU test against ${TARGET_BASE}"
+          echo "Think time: ${THINK_TIME_SECONDS}s"
+          echo "Note: ${TEST_NOTE}"
+          k6 cloud bench/k6-workers-100k.js

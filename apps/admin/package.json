@@ -1,0 +1,22 @@
+{
+  "name": "@rust-wokrers/admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5174",
+    "build": "vite build",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rust-wokrers/com": "workspace:*",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "vite": "^7.3.0",
+    "typescript": "~6.0.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3"
+  }
+}

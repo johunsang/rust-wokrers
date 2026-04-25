@@ -1,0 +1,16 @@
+{
+  "name": "@rust-wokrers/rust-workers",
+  "private": true,
+  "scripts": {
+    "build": "cargo check --target wasm32-unknown-unknown",
+    "dev": "wrangler dev --local-protocol https --https-cert-path ../.certs/local.pem --https-key-path ../.certs/local-key.pem --port 8787",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "db:migrate:remote:staging": "wrangler d1 migrations apply DB --remote --env staging",
+    "check": "cargo check --target wasm32-unknown-unknown"
+  },
+  "devDependencies": {
+    "wrangler": "^4.80.0"
+  }
+}

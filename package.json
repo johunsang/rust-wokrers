@@ -1,0 +1,33 @@
+{
+  "name": "rust-wokrers",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.10"
+    }
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @rust-wokrers/rust-workers --filter @rust-wokrers/landing --filter @rust-wokrers/admin dev",
+    "cert:local": "mkdir -p .certs && mkcert -install && mkcert -cert-file .certs/local.pem -key-file .certs/local-key.pem localhost 127.0.0.1 ::1",
+    "dev:remote": "pnpm --filter @rust-wokrers/rust-workers dev",
+    "dev:rust-workers": "pnpm --filter @rust-wokrers/rust-workers dev",
+    "dev:apps": "pnpm --parallel --filter @rust-wokrers/landing --filter @rust-wokrers/admin dev",
+    "db:migrate:local": "pnpm --filter @rust-wokrers/rust-workers db:migrate:local",
+    "db:migrate:remote": "pnpm --filter @rust-wokrers/rust-workers db:migrate:remote",
+    "db:migrate:remote:staging": "pnpm --filter @rust-wokrers/rust-workers db:migrate:remote:staging",
+    "deploy:rust-workers": "pnpm --filter @rust-wokrers/rust-workers run deploy",
+    "build": "pnpm --filter @rust-wokrers/rust-workers build && pnpm --filter @rust-wokrers/landing build && pnpm --filter @rust-wokrers/admin build",
+    "check": "pnpm --recursive run check",
+    "test": "pnpm --filter @rust-wokrers/rust-workers check",
+    "bench:workers": "node scripts/bench-workers.mjs",
+    "perf:workers": "node scripts/perf-workers.mjs",
+    "perf:100k:plan": "node -e \"console.log('Use k6 cloud with bench/k6-workers-100k.js. See bench/README.md and docs/14-performance-benchmark.md.')\"",
+    "perf:100k:hono": "k6 cloud -e TARGET_LABEL=Hono -e TARGET_BASE=https://example.com -e THINK_TIME_SECONDS=10 bench/k6-workers-100k.js",
+    "perf:100k:rust": "k6 cloud -e TARGET_LABEL=Rust -e TARGET_BASE=https://rust-wokrers.example.workers.dev -e THINK_TIME_SECONDS=10 bench/k6-workers-100k.js",
+    "deploy:staging": "pnpm db:migrate:remote:staging && pnpm --filter @rust-wokrers/rust-workers run deploy",
+    "deploy:prod": "pnpm db:migrate:remote && pnpm --filter @rust-wokrers/rust-workers run deploy"
+  }
+}

@@ -1,0 +1,50 @@
+name = "rust-wokrers"
+main = "build/worker/shim.mjs"
+compatibility_date = "2026-04-08"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+[build]
+command = "worker-build --release"
+
+[ai]
+binding = "AI"
+remote = true
+
+[[kv_namespaces]]
+binding = "APP_KV"
+id = "00000000000000000000000000000000"
+
+[vars]
+ENV_NAME = "production"
+APP_MODE = "full"
+APP_DOMAIN = "example.com"
+ADMIN_DOMAIN = "admin.example.com"
+SAAS_DOMAIN = "app.example.com"
+ADMIN_ACCESS_MODE = "hybrid"
+ADMIN_ALLOWED_EMAILS = "admin@example.com"
+ADMIN_LOGIN_EMAIL = "admin@example.com"
+CLOUDFLARE_ACCOUNT_ID = "REPLACE_WITH_CLOUDFLARE_ACCOUNT_ID"
+CLOUDFLARE_IMAGES_DELIVERY_HASH = ""
+AI_GATEWAY_ACCOUNT_ID = "REPLACE_WITH_CLOUDFLARE_ACCOUNT_ID"
+AI_GATEWAY_ID = "default"
+AI_PROVIDER = "workers-ai"
+AI_MODEL = "@cf/meta/llama-3.1-8b-instruct"
+AI_TEXT_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast"
+AI_EMBED_MODEL = "@cf/baai/bge-small-en-v1.5"
+GITHUB_ALLOWED_USERS = "example"
+GITHUB_CLIENT_ID = "REPLACE_WITH_GITHUB_CLIENT_ID"
+GITHUB_RELEASES_REPO = "your-org/rust-wokrers"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "rust-wokrers"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+#[[r2_buckets]]
+#binding = "MEDIA_R2"
+#bucket_name = "rust-wokrers-media"
+
+[observability]
+enabled = true

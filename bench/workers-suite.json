@@ -1,0 +1,76 @@
+{
+  "targets": [
+    {
+      "label": "Hono",
+      "baseUrl": "https://example.com",
+      "runtime": "cloudflare-workers"
+    },
+    {
+      "label": "Rust",
+      "baseUrl": "https://rust-wokrers.example.workers.dev",
+      "runtime": "cloudflare-workers-rust"
+    }
+  ],
+  "endpoints": [
+    {
+      "name": "health-json",
+      "method": "GET",
+      "path": "/api/health",
+      "expectedStatus": 200,
+      "description": "Tiny JSON health endpoint, good for router and middleware overhead."
+    },
+    {
+      "name": "public-bootstrap-d1",
+      "method": "GET",
+      "path": "/api/public/bootstrap",
+      "expectedStatus": 200,
+      "description": "Public JSON endpoint with D1-backed site settings and metrics."
+    },
+    {
+      "name": "public-pages-d1",
+      "method": "GET",
+      "path": "/api/public/pages",
+      "expectedStatus": 200,
+      "description": "Public CMS listing endpoint backed by D1."
+    },
+    {
+      "name": "landing-html",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "description": "Public HTML/static-asset entry path."
+    },
+    {
+      "name": "cms-page-html",
+      "method": "GET",
+      "path": "/getting-started",
+      "expectedStatus": 200,
+      "description": "CMS page HTML route."
+    }
+  ],
+  "profiles": {
+    "quick": {
+      "connections": [1, 5, 20],
+      "durationSeconds": 8,
+      "warmupSeconds": 2,
+      "repetitions": 1
+    },
+    "standard": {
+      "connections": [1, 5, 10, 25, 50, 100],
+      "durationSeconds": 30,
+      "warmupSeconds": 5,
+      "repetitions": 3
+    },
+    "soak": {
+      "connections": [25, 50],
+      "durationSeconds": 300,
+      "warmupSeconds": 15,
+      "repetitions": 1
+    }
+  },
+  "headers": {
+    "accept": "*/*",
+    "cache-control": "no-cache",
+    "pragma": "no-cache"
+  }
+}

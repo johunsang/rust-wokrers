@@ -1,0 +1,45 @@
+node_modules
+.DS_Store
+dist
+coverage
+.wrangler
+.wrangler-dry
+.wrangler-dry-staging
+.env
+.env.local
+.env.production
+.env.*.local
+.envrc
+.direnv/
+.dev.vars
+.env.*.local
+worker/.dev.vars
+worker/wrangler.local.jsonc
+worker/public
+rust-workers/.dev.vars
+rust-workers/wrangler.local.toml
+rust-workers/.wrangler
+rust-workers/target
+.certs/
+
+# Common secret and certificate files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.csr
+secrets.*
+*.secret
+
+# Claude Code local files
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/
+.agents/
+
+# Local agent and MCP configuration
+.mcp.json
+.codex/
